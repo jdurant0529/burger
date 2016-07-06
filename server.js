@@ -1,24 +1,29 @@
-// ==============================================================================
-// DEPENDENCIES
-// Series of npm packages that we will use to give our server useful functionality
-// ==============================================================================
-	var express = require('express');
-	var methodOverride = require('method-override');
-	var bodyParser = require('body-parser')
-	var orm = require('./config/orm.js');
-
+//dependancies needed for server file
+var express = require('express');
+var methodOverride = require('method-override');
+var bodyParser = require('body-parser');
 var app = express();
+var exphbs = require('express-handlebars');
+var connection = require('./config/connection.js');
+var path = require('path');
+//var burger = require('./models/burgers.js');
 
-//var path = require('path');
+//Serve static content for the app from the "public" directory in the application directory.
+app.use(express.static(__dirname + '/public'));
 
-orm.selectWhere('burgers', 'devoured', 'false').then(function(data) {
-	console.log(data); //data is undefined - why?
-});
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(express.static('public/assets'));
+app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.set('view engine', 'handlebars');
+
+require('./controllers/burgers_controller.js')(app);
+
+//handlebars helper function
 
 
-
-// orm.selectWhere('parties', 'party-type', 'grown-up').then(function(data) {
-// 	console.log(data); //data is undefined - why?
-// });
 var port = 3000;
-app.listen(port);
+
+app.listen(port, function() {
+    console.log("Listening on PORT " + port);
+});
