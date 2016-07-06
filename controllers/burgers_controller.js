@@ -13,12 +13,15 @@ var notDevoured;
 
     app.get('/', function(req, res) {
         orm.isNotEaten('burgers').then(function(data) {
+                console.log(data);
             notDevoured = data;
-            
+            console.log('inside isNotEaten: ' + notDevoured);
         });
 
-        orm.isEaten('burgers', 'devoured', '1').then(function(data) {
+        orm.isEaten('burgers').then(function(data) {
+                console.log(data);
             devoured = data;
+            console.log('inside isEaten: '+ devoured);
             
         });
 console.log('not devoured: ' + notDevoured);

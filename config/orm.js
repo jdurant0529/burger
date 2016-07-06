@@ -2,8 +2,8 @@ var connection = require('./connection.js');
 
 var orm = {
 
-	
-	isEaten: function(table){
+
+	isEaten: function(){
 		return new Promise(function(resolve, reject){
 			var queryString = "SELECT * FROM burgers where devoured = '1'";
 			connection.query(queryString, function(err, res){
@@ -14,7 +14,7 @@ var orm = {
 		})
 	},
 
-	isNotEaten: function(table){
+	isNotEaten: function(){
 		return new Promise(function(resolve, reject){
 			var queryString = "SELECT * FROM burgers where devoured = '0'";
 			connection.query(queryString, function(err, res){
