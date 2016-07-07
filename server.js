@@ -22,8 +22,8 @@ require('./controllers/burgers_controller.js')(app);
 //handlebars helper function
 
 
-var port = process.env.port || 3000;
+var PORT = process.env.PORT || 3000;
 
-app.listen(port, function() {
-    console.log("Listening on PORT " + port);
+app.listen(PORT, function() {
+    console.log("Listening on PORT " + PORT);
 });
