@@ -6,8 +6,8 @@ var app = express();
 var exphbs = require('express-handlebars');
 var connection = require('./config/connection.js');
 var path = require('path');
-//var burger = require('./models/burgers.js');
 
+var PORT = process.env.PORT || 3000;
 //Serve static content for the app from the "public" directory in the application directory.
 app.use(express.static(__dirname + '/public'));
 
@@ -22,7 +22,7 @@ require('./controllers/burgers_controller.js')(app);
 //handlebars helper function
 
 
-var PORT = process.env.PORT || 3000;
+
 
 app.listen(PORT, function() {
     console.log("Listening on PORT " + PORT);
