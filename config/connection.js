@@ -1,3 +1,5 @@
+// everything required to connect to burger_db database...
+
 var mysql = require('mysql');
 
 var connection = mysql.createConnection({

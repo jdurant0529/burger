@@ -8,42 +8,36 @@ var app = express();
 // Creating Routes
 module.exports = function(app) {
 
-// var devoured;
-// var notDevoured;
 
-app.get('/', function(req, res) {
-    orm.isNotEaten('burgers', function(data) {
-        console.log('data in isnot eaten: ' + data);
-        notDevoured = data;
-        console.log('notDevoured inside isNotEaten: ' + notDevoured);
+    // app.get will retrieve data from the database (using ORM).  
+    // each set of data (eaten or not eaten burgers) is saved as notDevoured or devoured.
+    // that data is rendered onto the index page.
+    app.get('/', function(req, res) {
+        orm.isNotEaten('burgers', function(data) {
+            notDevoured = data;
 
-        orm.isEaten('burgers', function(data) {
-            console.log('data inside isEaten' + data);
-            devoured = data;
-            console.log('devoured inside isEaten: ' + devoured);
-            console.log('not devoured after app.gets: ' + notDevoured);
-            console.log('devoured after app.gets: ' + devoured);
-            res.render('index', { eaten: devoured, notEaten: notDevoured })
+            orm.isEaten('burgers', function(data) {
+                devoured = data;
+                res.render('index', { eaten: devoured, notEaten: notDevoured })
+            });
         });
+    })
+
+    // /create page using app.post is used to send data into the database as a new Burger.
+    // the index page is to be re-rendered with the newly added burger.
+    app.post('/create', function(req, res) {
+        orm.addBurger('burgers', req.body.burger, function(data) {
+            res.redirect('/');
+        })
+    })
+
+    // /update page using app.post is used to change and existing "burger" to "devoured"
+    // the index page is re-rendered with the new changes to that burger
+    app.post('/update', function(req, res) {
+        orm.devourBurger(req.body.id, function(data) {
+            res.redirect('/');
+        })
+
+
     });
-})
-
-app.post('/create', function(req, res) {
-    var body = req.body
-    console.log(body);
-    //console.log(burger);
-    orm.addBurger('burgers', req.body.burger, function(data) {
-        console.log('stuff was done.');
-        res.redirect('/');
-    })
-})
-
-app.post('/update', function(req, res) {
-    console.log(req.body);
-    orm.devourBurger(req.body.id, function(data) {
-        res.redirect('/');
-    })
-
-
-});
 }
